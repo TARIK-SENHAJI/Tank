@@ -1,15 +1,40 @@
-The process includes:
+# Entraînement d'un modèle YOLOv12 pour la détection de véhicules
 
-Environment Setup: Installing necessary libraries like Roboflow, Supervision, FlashAttention, and the YOLOv12 model directly from its GitHub repository.
+Ce projet contient un pipeline complet pour l'entraînement (fine-tuning) d'un modèle de détection d'objets YOLOv12.
 
-GPU Check: Verifying the availability of a compatible NVIDIA GPU, noting that FlashAttention requires an Ampere architecture or newer.
+## Aperçu du processus
 
-Data Acquisition: Downloading a custom "classavehicle" dataset from Roboflow in YOLOv12 format.
+Le notebook (`train.ipynb`) exécute les étapes suivantes :
 
-Data Preparation: Modifying the dataset's data.yaml file to ensure the path configurations are correct for training.
+* **Configuration de l'environnement :** Installation des bibliothèques nécessaires, y compris `roboflow`, `supervision`, `flash-attn`, et le modèle YOLOv12 depuis son dépôt GitHub.
+* **Vérification du GPU :** S'assure qu'un GPU NVIDIA compatible (architecture Ampere ou plus récente pour FlashAttention) est disponible.
+* **Acquisition des données :** Téléchargement du jeu de données personnalisé "classavehicle" depuis Roboflow au format YOLOv12.
+* **Préparation des données :** Modification du fichier `data.yaml` pour garantir que les chemins d'accès aux ensembles d'entraînement, de validation et de test sont corrects.
+* **Entraînement du modèle :** Fine-tuning d'un modèle `yolov12s` sur les données personnalisées pendant 100 époques.
+* **Évaluation :** Évaluation des performances du modèle entraîné à l'aide de matrices de confusion, de graphiques de résultats et du calcul des métriques Mean Average Precision (mAP).
+* **Inférence :** Chargement des meilleurs poids (`best.pt`) pour exécuter des prédictions sur des images aléatoires du jeu de test et visualiser les résultats.
 
-Model Training: Fine-tuning a yolov12s model on the custom data for 100 epochs.
+## Performances et Résultats
 
-Evaluation: Assessing the trained model's performance by displaying confusion matrices, results charts, and calculating Mean Average Precision (mAP) metrics (mAP 50:95, mAP 50, mAP 75) using the test set.
+L'entraînement a été exécuté pendant 100 époques. Les performances finales du modèle sur l'ensemble de validation sont les suivantes :
 
-Inference: Loading the best-trained weights (best.pt) and running predictions on random images from the test set, then visualizing the detected bounding boxes and labels.
+| Métrique | Score |
+| :--- | :--- |
+| **mAP50-95(B)** | 0.653 |
+| **mAP50(B)** | 0.935 |
+
+Les logs complets de l'entraînement sont disponibles dans `results.csv`.
+
+## Comment l'utiliser
+
+### 1. Prérequis
+
+Assurez-vous d'avoir un environnement avec un GPU NVIDIA (recommandé sur Google Colab).
+
+### 2. Installation
+
+Les dépendances principales peuvent être installées via `pip` :
+
+```bash
+!pip install roboflow
+!pip install -q git+[https://github.com/sunsmarterjie/yolov12.git](https://github.com/sunsmarterjie/yolov12.git) roboflow supervision flash-attn
