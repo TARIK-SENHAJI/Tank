@@ -1,4 +1,4 @@
-# Entraînement d'un modèle YOLOv12 pour la détection de véhicules
+# Entraînement d'un modèle YOLOv12 pour la détection de véhicules militaires 
 
 Ce projet contient un pipeline complet pour l'entraînement (fine-tuning) d'un modèle de détection d'objets YOLOv12.
 
